@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Changez ce nom de branche si nécessaire
+      - main  
   pull_request:
     branches:
       - main
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'  # Choisissez la version de Node.js selon vos besoins
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
@@ -53,8 +53,8 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker tag my-web-app:latest ${{ secrets.DOCKER_USERNAME }}/my-web-app:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-web-app:latest
+          docker tag my-web-app:latest ${{ secrets.DOCKER_USERNAME }}/calculator:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/calculator:latest
 
   deploy:
     runs-on: ubuntu-latest
