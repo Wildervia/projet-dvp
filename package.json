@@ -4,11 +4,11 @@
   "description": "Une application web simple de calculatrice",
   "main": "index.html",
   "scripts": {
-    "test": "jasmine"
+    "test": "npx jasmine"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jasmine": "^4.6.0"
+    "jasmine": "^4.0.0"
   }
 }
