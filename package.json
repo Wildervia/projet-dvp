@@ -1,0 +1,14 @@
+{
+  "name": "projet-dvp",
+  "version": "1.0.0",
+  "description": "Une application web simple de calculatrice",
+  "main": "index.html",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine": "^4.6.0"
+  }
+}
