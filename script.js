@@ -1,61 +1,60 @@
-let display = document.getElementById('display');
-let currentOperand = '';
-let previousOperand = '';
-let operation = null;
+let displayValue = '';
+let firstOperand = null;
+let secondOperand = null;
+let currentOperation = null;
 
 function appendNumber(number) {
-    currentOperand += number;
+    displayValue += number;
     updateDisplay();
 }
 
-function chooseOperation(op) {
-    if (currentOperand === '') return;
-    if (previousOperand !== '') {
-        calculate();
+function setOperation(operation) {
+    if (displayValue === '') return;
+    if (firstOperand === null) {
+        firstOperand = parseFloat(displayValue);
+    } else if (currentOperation) {
+        secondOperand = parseFloat(displayValue);
+        firstOperand = calculate(firstOperand, secondOperand, currentOperation);
     }
-    operation = op;
-    previousOperand = currentOperand;
-    currentOperand = '';
+    currentOperation = operation;
+    displayValue = '';
 }
 
-function calculate() {
-    let result;
-    const prev = parseFloat(previousOperand);
-    const current = parseFloat(currentOperand);
-    if (isNaN(prev) || isNaN(current)) return;
-    switch (operation) {
-        case '+':
-            result = prev + current;
-            break;
-        case '-':
-            result = prev - current;
-            break;
-        case '*':
-            result = prev * current;
-            break;
-        case '/':
-            if (current === 0) {
-                alert("Erreur! Division par zéro.");
-                return;
-            }
-            result = prev / current;
-            break;
-        default:
-            return;
+function calculateResult() {
+    if (currentOperation && displayValue !== '') {
+        secondOperand = parseFloat(displayValue);
+        displayValue = calculate(firstOperand, secondOperand, currentOperation).toString();
+        firstOperand = null;
+        secondOperand = null;
+        currentOperation = null;
+        updateDisplay();
     }
-    currentOperand = result;
-    operation = null;
-    previousOperand = '';
-    updateDisplay();
 }
 
 function clearDisplay() {
-    currentOperand = '';
-    previousOperand = '';
-    operation = null;
+    displayValue = '';
+    firstOperand = null;
+    secondOperand = null;
+    currentOperation = null;
     updateDisplay();
 }
 
 function updateDisplay() {
-    display.innerText = currentOperand;
+    const display = document.getElementById('display');
+    display.textContent = displayValue === '' ? '0' : displayValue;
+}
+
+function calculate(a, b, operation) {
+    switch (operation) {
+        case '+':
+            return a + b;
+        case '-':
+            return a - b;
+        case '*':
+            return a * b;
+        case '÷':
+            return a / b;
+        default:
+            return b;
+    }
 }
