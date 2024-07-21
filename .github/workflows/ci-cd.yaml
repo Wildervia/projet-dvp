@@ -62,11 +62,16 @@ jobs:
 
       - name: Deploy to server
         env:
-          DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
-          DOCKER_TLS_VERIFY: 1
-          DOCKER_CERT_PATH: ${{ secrets.DOCKER_CERT_PATH }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SSH_USER: ${{ secrets.SSH_USER }}
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          # Save the SSH private key to a file
+          echo "$SSH_PRIVATE_KEY" > /tmp/id_rsa
+          chmod 600 /tmp/id_rsa
+
+          # Use SSH to deploy the Docker image
+          ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa $SSH_USER@$SERVER_IP << 'EOF'
             docker pull ${{ secrets.DOCKER_USERNAME }}/calculator:latest
             docker stop calculator || true
             docker rm calculator || true
