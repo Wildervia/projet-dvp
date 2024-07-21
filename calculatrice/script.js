@@ -58,3 +58,8 @@ function calculate(a, b, operation) {
             return b;
     }
 }
+
+// Exporter la fonction calculate pour les tests
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { calculate };
+}
